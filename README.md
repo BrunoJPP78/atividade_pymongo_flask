@@ -19,8 +19,10 @@ Passo a Passo para Iniciar o Projeto
 1. Crie o ambiente virtual (opcional)
 É recomendado criar um ambiente virtual para isolar as dependências da aplicação.
 
-bash
+```bash
 python -m venv venv
+```
+
 Ative o ambiente virtual:
 
 No Windows:
@@ -51,6 +53,10 @@ Abra o navegador e vá até:
 ```arduino
 http://127.0.0.1:5000/
 ```
+
+5. OBS: Configuração do MongoDB
+A aplicação está configurada para utilizar o MongoDB como banco de dados. O arquivo config.py contém a configuração de conexão com o MongoDB e define as coleções que serão utilizadas.
+
 Você verá a página inicial com três botões que levam às páginas de Produtos, Pedidos e Clientes.
 
 <u>Tecnologias Utilizadas</u>
