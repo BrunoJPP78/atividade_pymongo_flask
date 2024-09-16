@@ -8,11 +8,19 @@ CORS(app)
 
 @app.route("/")
 def home():
+    return "Hello World."
+
+@app.route("/clientes")
+def cliente():
     return render_template('/layout/index.html')
 
 @app.route("/produtos")
 def produto():
     return render_template('/layout/produto.html')
+
+@app.route("/pedidos")
+def pedido():
+    return render_template('/layout/pedido.html')
 
 ### Declarando Classes
 class Clientes():
@@ -66,7 +74,7 @@ class Pedidos():
 
 ### Criação das Rotas
 
-@app.route("/clientes")
+@app.route("/listarClientes")
 def lista_clientes():
     try:
         clientes = clientes_collection.find()
@@ -224,7 +232,7 @@ def update_produto(id_produto):
     except Exception as e:
         return f"Erro ao atualizar produto: {e}", 500
 
-@app.route("/excluiproduto/<id_produto>", methods=["DELETE"])
+@app.route("/excluiProduto/<id_produto>", methods=["DELETE"])
 def delete_produto(id_produto):
     try:
 
@@ -249,7 +257,7 @@ def delete_produto(id_produto):
     except Exception as e:
         return f"Erro ao excluir produto: {e}", 500
 
-@app.route("/pedidos", methods=['POST'])
+@app.route("/inserirPedido", methods=['POST'])
 def set_pedido():
     dados = request.get_json()
     id_cliente = dados['id_cliente']
@@ -289,9 +297,7 @@ def listar_pedidos():
             pedido['_id'] = str(pedido['_id'])
             pedidos_serializado.append(pedido)
         
-        # return jsonify(pedidos_serializado), 200
-        return render_template('/layout/pedido.html', pedidos=pedidos_serializado)
-
+        return jsonify(pedidos_serializado), 200
 
     except Exception as e:
         print(f"Erro: {e}")

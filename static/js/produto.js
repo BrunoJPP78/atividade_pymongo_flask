@@ -4,7 +4,6 @@ const API_URL = "http://localhost:5000"; // URL base da API Flask
 async function cadastrarProduto(event) {
     event.preventDefault(); // Evitar o reload da página ao enviar o formulário
 
-    const id_produto = document.getElementById("id_produto").value;
     const nome = document.getElementById("nome").value;
     const categoria = document.getElementById("categoria").value;
     const preco = document.getElementById("preco").value;
@@ -54,7 +53,7 @@ async function listarProdutos() {
             produtos.forEach((produto) => {
                 const row = document.createElement("tr");
 
-                row.innerHTML = `
+                row.innerHTML = ` 
                     <td>${produto.id_produto}</td>
                     <td>${produto.nome}</td>
                     <td>${produto.categoria}</td>

@@ -40,7 +40,7 @@ async function cadastrarCliente(event) {
 // Função para listar os clientes
 async function listarClientes() {
     try {
-        const response = await fetch(`${API_URL}/clientes`, {
+        const response = await fetch(`${API_URL}/listarClientes`, {
             method: 'GET',
         });
 
