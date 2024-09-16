@@ -8,7 +8,7 @@ CORS(app)
 
 @app.route("/")
 def home():
-    return "Hello World."
+    return render_template('/layout/home.html')
 
 @app.route("/clientes")
 def cliente():
