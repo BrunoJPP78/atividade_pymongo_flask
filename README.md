@@ -62,9 +62,9 @@ http://127.0.0.1:5000/
 Você verá a página inicial com três botões que levam às páginas de Produtos, Pedidos e Clientes.
 
 <u>Tecnologias Utilizadas</u>
-<li>Python</li>
-<li>Flask</li>
-<li>Bootstrap</li>
-<li>JavaScript</li>
-<li>MongoDB</li>
+<li>Python</li>🐍
+<li>Flask</li>🌶️
+<li>Bootstrap</li>🎨
+<li>JavaScript</li>🔸
+<li>MongoDB</li>🍃
 
