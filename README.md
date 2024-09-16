@@ -55,6 +55,7 @@ http://127.0.0.1:5000/
 ```
 
 5. Configuração do MongoDB
+   
 <b> OBS: A aplicação está configurada para utilizar o MongoDB como banco de dados. O arquivo config.py contém a configuração de conexão com o MongoDB e define as coleções que serão utilizadas. </b>
 
 Você verá a página inicial com três botões que levam às páginas de Produtos, Pedidos e Clientes.
