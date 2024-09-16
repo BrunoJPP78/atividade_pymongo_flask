@@ -8,6 +8,7 @@ Antes de começar, você vai precisar ter instalado:
 
 - [Python 3.x](https://www.python.org/downloads/)
 - [Flask](https://flask.palletsprojects.com/)
+- [MongoDB](https://www.mongodb.com/try/download/community-edition)
 
 Para instalar as dependências necessárias, execute o comando abaixo no terminal:
 
