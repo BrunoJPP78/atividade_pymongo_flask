@@ -10,12 +10,6 @@ Antes de começar, você vai precisar ter instalado:
 - [Flask](https://flask.palletsprojects.com/)
 - [MongoDB](https://www.mongodb.com/try/download/community-edition)
 
-Para instalar as dependências necessárias, execute o comando abaixo no terminal:
-
-```bash
-pip install -r ./requirements.txt
-```
-
 Passo a Passo para Iniciar o Projeto
 1. Crie o ambiente virtual (opcional)
 É recomendado criar um ambiente virtual para isolar as dependências da aplicação.
@@ -35,7 +29,14 @@ No macOS/Linux:
 source venv/bin/activate
 ```
 
-2. Instale as dependências (Caso o requirements.txt não funcionar)
+2. Instale as dependências
+Para instalar as dependências necessárias, execute o comando abaixo no terminal:
+
+```bash
+pip install -r ./requirements.txt
+```
+
+(Caso o requirements.txt não funcionar)
 No diretório do projeto, execute:
 ```bash
 pip install flask
