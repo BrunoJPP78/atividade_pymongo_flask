@@ -60,6 +60,10 @@ async function listarProdutos() {
                     <td>${produto.categoria}</td>
                     <td>${produto.preco}</td>
                     <td>${produto.descricao}</td>
+                    <td>
+                        <button class="btn btn-warning btn-sm" onclick="editarProduto('${produto.id_produto}')">Editar</button>
+                        <button class="btn btn-danger btn-sm" onclick="excluirProduto('${produto.id_produto}')">Excluir</button>
+                    </td>
                 `;
 
                 produtosTableBody.appendChild(row);
@@ -67,6 +71,61 @@ async function listarProdutos() {
         }
     } catch (error) {
         console.error("Erro ao listar produtos:", error);
+    }
+}
+
+// Função para excluir produto
+async function excluirProduto(id_produto) {
+    console.log("id_produto: ", id_produto)
+    if (confirm("Tem certeza que deseja excluir este produto?")) {
+        try {
+            const response = await fetch(`${API_URL}/excluiProduto/${id_produto}`, {
+                method: 'DELETE'
+            });
+
+            if (response.ok) {
+                alert("Produto excluído com sucesso!");
+                listarProdutos(); // Atualizar a lista de produtos
+            } else {
+                alert("Erro ao excluir produto.");
+            }
+        } catch (error) {
+            console.error("Erro ao excluir produto:", error);
+        }
+    }
+}
+
+// Função para editar produto
+async function editarProduto(id_produto) {
+    const novoNome = prompt("Digite o novo nome do produto:");
+    const novaCategoria = prompt("Digite a nova categoria do produto:");
+    const novoPreco = prompt("Digite o novo preço do produto:");
+    const novaDescricao = prompt("Digite a nova descricao do produto:");
+
+    const produtoAtualizado = {
+        nome: novoNome,
+        categoria: novaCategoria,
+        preco: novoPreco,
+        descricao: novaDescricao
+    };
+
+    try {
+        const response = await fetch(`${API_URL}/alteraProduto/${id_produto}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(produtoAtualizado)
+        });
+
+        if (response.ok) {
+            alert("Produto atualizado com sucesso!");
+            listarProdutos(); // Atualizar a lista de produtos
+        } else {
+            alert("Erro ao atualizar produto.");
+        }
+    } catch (error) {
+        console.error("Erro ao atualizar produto:", error);
     }
 }
 

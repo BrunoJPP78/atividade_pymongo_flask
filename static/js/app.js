@@ -60,6 +60,10 @@ async function listarClientes() {
                     <td>${cliente.email}</td>
                     <td>${cliente.cpf}</td>
                     <td>${cliente.data_nascimento}</td>
+                    <td>
+                        <button class="btn btn-warning btn-sm" onclick="editarCliente('${cliente.id_cliente}')">Editar</button>
+                        <button class="btn btn-danger btn-sm" onclick="excluirCliente('${cliente.id_cliente}')">Excluir</button>
+                    </td>
                 `;
 
                 clientesTableBody.appendChild(row);
@@ -67,6 +71,61 @@ async function listarClientes() {
         }
     } catch (error) {
         console.error("Erro ao listar clientes:", error);
+    }
+}
+
+// Função para excluir cliente
+async function excluirCliente(id_cliente) {
+    console.log("id_cliente: ", id_cliente)
+    if (confirm("Tem certeza que deseja excluir este cliente?")) {
+        try {
+            const response = await fetch(`${API_URL}/excluiCliente/${id_cliente}`, {
+                method: 'DELETE'
+            });
+
+            if (response.ok) {
+                alert("Cliente excluído com sucesso!");
+                listarClientes(); // Atualizar a lista de clientes
+            } else {
+                alert("Erro ao excluir cliente.");
+            }
+        } catch (error) {
+            console.error("Erro ao excluir cliente:", error);
+        }
+    }
+}
+
+// Função para editar cliente
+async function editarCliente(id_cliente) {
+    const novoNome = prompt("Digite o novo nome do cliente:");
+    const novoEmail = prompt("Digite o novo email do cliente:");
+    const novoCpf = prompt("Digite o novo CPF do cliente:");
+    const novaDataNascimento = prompt("Digite a nova data de nascimento do cliente (YYYY-MM-DD):");
+
+    const clienteAtualizado = {
+        nome: novoNome,
+        email: novoEmail,
+        cpf: novoCpf,
+        data_nascimento: novaDataNascimento
+    };
+
+    try {
+        const response = await fetch(`${API_URL}/alteraCliente/${id_cliente}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(clienteAtualizado)
+        });
+
+        if (response.ok) {
+            alert("Cliente atualizado com sucesso!");
+            listarClientes(); // Atualizar a lista de clientes
+        } else {
+            alert("Erro ao atualizar cliente.");
+        }
+    } catch (error) {
+        console.error("Erro ao atualizar cliente:", error);
     }
 }
 

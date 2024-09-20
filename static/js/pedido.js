@@ -106,6 +106,9 @@ async function listarPedidos() {
                     <td>${pedido.nome_produto}</td>
                     <td>${pedido.dataPedido}</td>
                     <td>R$ ${pedido.valor}</td>
+                    <td>
+                        <button class="btn btn-danger btn-sm" onclick="excluirPedido('${pedido._id}')">Excluir</button>
+                    </td>
                 `;
 
                 pedidosTableBody.appendChild(row);
@@ -114,6 +117,27 @@ async function listarPedidos() {
     } catch (error) {
         console.error("Erro ao listar pedidos:", error);
     }
+}
+
+// Função para excluir pedido
+async function excluirPedido(id_pedido) {
+  console.log("id_pedido: ", id_pedido)
+  if (confirm("Tem certeza que deseja excluir este pedido?")) {
+      try {
+          const response = await fetch(`${API_URL}/excluirPedido/${id_pedido}`, {
+              method: 'DELETE'
+          });
+
+          if (response.ok) {
+              alert("Pedido excluído com sucesso!");
+              listarPedidos(); // Atualizar a lista de pedidos
+          } else {
+              alert("Erro ao excluir pedido.");
+          }
+      } catch (error) {
+          console.error("Erro ao excluir pedido:", error);
+      }
+  }
 }
 
 // Adicionar eventos
