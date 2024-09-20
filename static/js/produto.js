@@ -4,14 +4,14 @@ const API_URL = "http://localhost:5000"; // URL base da API Flask
 async function cadastrarProduto(event) {
     event.preventDefault(); // Evitar o reload da página ao enviar o formulário
 
-    const id_produto = document.getElementById("id_produto").value;
+    // const id_produto = document.getElementById("id_produto").value;
     const nome = document.getElementById("nome").value;
     const categoria = document.getElementById("categoria").value;
     const preco = document.getElementById("preco").value;
     const descricao = document.getElementById("descricao").value;
 
     const produtoData = {
-        id_produto: id_produto,
+        // id_produto: id_produto,
         nome: nome,
         categoria: categoria,
         preco: preco,
@@ -46,16 +46,16 @@ async function listarProdutos() {
         });
 
         const produtos = await response.json();
+        const produtosFiltrados = produtos.filter(produto => produto._id !== "id_produto"); 
 
         const produtosTableBody = document.getElementById("produtosTableBody");
         if (produtosTableBody) {
             produtosTableBody.innerHTML = ""; // Limpar tabela antes de adicionar novos dados
 
-            produtos.forEach((produto) => {
+            produtosFiltrados.forEach((produto) => {
                 const row = document.createElement("tr");
 
                 row.innerHTML = ` 
-                    <td>${produto.id_produto}</td>
                     <td>${produto.nome}</td>
                     <td>${produto.categoria}</td>
                     <td>${produto.preco}</td>

@@ -1,6 +1,6 @@
 from bson import ObjectId
 from flask import Flask, jsonify, request, render_template
-from config import bd, pedidos_collection, produtos_collection, clientes_collection
+from config import bd, get_next_id_cliente, get_next_id_produto, pedidos_collection, produtos_collection, clientes_collection
 from flask_cors import CORS
 
 app = Flask(__name__)
@@ -77,7 +77,8 @@ class Pedidos():
 @app.route("/listarClientes")
 def lista_clientes():
     try:
-        clientes = clientes_collection.find()
+        # Filtrar para não trazer o documento com _id igual a 'id_cliente'
+        clientes = clientes_collection.find({"_id": {"$ne": "id_cliente"}})
 
         clientes_serializado = []
         for cliente in clientes:
@@ -88,13 +89,18 @@ def lista_clientes():
 
     except Exception as e:
         print(f"Erro: {e}")
-        return "Erro ao listas clientes.", 500
+        return "Erro ao listar clientes.", 500
+
 
 @app.route("/inserirCliente", methods=['POST'])
 def set_cliente():
     dados = request.get_json()
+
+    # Gera o próximo ID do cliente
+    novo_id_cliente = get_next_id_cliente()
+
     novo_cliente = Clientes(
-        id_cliente=dados['id_cliente'],
+        id_cliente=novo_id_cliente,
         nome=dados['nome'],
         email=dados['email'],
         cpf=dados['cpf'],
@@ -103,8 +109,7 @@ def set_cliente():
 
     resultado = clientes_collection.insert_one(novo_cliente.serialize())
 
-    if  resultado.inserted_id:
-        novo_cliente.id_cliente = str(resultado.inserted_id)
+    if resultado.inserted_id:
         return jsonify(novo_cliente.serialize()), 201
     else:
         return "Erro ao inserir cliente.", 500
@@ -167,7 +172,8 @@ def delete_cliente(id_cliente):
 @app.route("/listarProdutos")
 def lista_produtos():
     try:
-        produtos = produtos_collection.find()
+        # Filtrar para não trazer o documento com _id igual a 'id_produto'
+        produtos = produtos_collection.find({"_id": {"$ne": "id_produto"}})
 
         produtos_serializado = []
         for produto in produtos:
@@ -177,7 +183,6 @@ def lista_produtos():
         return jsonify(produtos_serializado), 200
         # return render_template('/layout/produto.html', produtos=produtos_serializado)
 
-
     except Exception as e:
         print(f"Erro: {e}")
         return "Erro ao listar produtos.", 500
@@ -185,9 +190,11 @@ def lista_produtos():
 @app.route("/inserirProduto", methods=['POST'])
 def set_produto():
     dados = request.get_json()
+    novo_id_produto = get_next_id_produto()
+
 
     novo_produto = Produtos(
-        id_produto=dados['id_produto'],
+        id_produto=novo_id_produto,
         nome=dados['nome'],
         categoria=dados['categoria'],
         preco=dados['preco'],
@@ -260,9 +267,9 @@ def delete_produto(id_produto):
 @app.route("/inserirPedido", methods=['POST'])
 def set_pedido():
     dados = request.get_json()
-    id_cliente = dados['id_cliente']
+    id_cliente = int(dados['id_cliente'])
     print('id_cliente: ', id_cliente)
-    id_produto = dados['id_produto']
+    id_produto = int(dados['id_produto'])
     print('id_produto: ', id_produto)
 
     # Verificar se o cliente existe
@@ -325,7 +332,7 @@ def listar_pedidos():
                 "nome_cliente": nome_cliente,
                 "nome_produto": nome_produto,
                 "dataPedido": pedido.get("dataPedido"),
-                "valor": pedido.get("valor")
+                "valor": produto.get("preco")
             }
 
             pedidos_serializado.append(pedido_serializado)

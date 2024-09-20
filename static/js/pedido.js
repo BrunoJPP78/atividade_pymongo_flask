@@ -39,7 +39,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       produtos.forEach(produto => {
         const option = document.createElement("option");
         option.value = produto.id_produto;
-        option.text = produto.nome; // Exibe o nome do produto
+        option.text = `${produto.nome} - R$ ${produto.preco}`; // Exibe o nome e o valor do produto
         produtoSelect.appendChild(option);
       });
     } catch (error) {
@@ -105,7 +105,7 @@ async function listarPedidos() {
                     <td>${pedido.nome_cliente}</td>
                     <td>${pedido.nome_produto}</td>
                     <td>${pedido.dataPedido}</td>
-                    <td>${pedido.valor}</td>
+                    <td>R$ ${pedido.valor}</td>
                 `;
 
                 pedidosTableBody.appendChild(row);

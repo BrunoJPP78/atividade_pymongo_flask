@@ -4,14 +4,14 @@ const API_URL = "http://localhost:5000"; // URL base da API Flask
 async function cadastrarCliente(event) {
     event.preventDefault(); // Evitar o reload da página ao enviar o formulário
 
-    const id_cliente = document.getElementById("id_cliente").value;
+    // const id_cliente = document.getElementById("id_cliente").value;
     const nome = document.getElementById("nome").value;
     const email = document.getElementById("email").value;
     const cpf = document.getElementById("cpf").value;
     const dataNascimento = document.getElementById("dataNascimento").value;
 
     const clienteData = {
-        id_cliente: id_cliente,
+        // id_cliente: id_cliente,
         nome: nome,
         email: email,
         cpf: cpf,
@@ -46,16 +46,16 @@ async function listarClientes() {
         });
 
         const clientes = await response.json();
+        const clientesFiltrados = clientes.filter(cliente => cliente._id !== "id_cliente"); 
 
         const clientesTableBody = document.getElementById("clientesTableBody");
         if (clientesTableBody) {
             clientesTableBody.innerHTML = ""; // Limpar tabela antes de adicionar novos dados
 
-            clientes.forEach((cliente) => {
+            clientesFiltrados.forEach((cliente) => {
                 const row = document.createElement("tr");
 
                 row.innerHTML = `
-                    <td>${cliente.id_cliente}</td>
                     <td>${cliente.nome}</td>
                     <td>${cliente.email}</td>
                     <td>${cliente.cpf}</td>
