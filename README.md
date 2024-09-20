@@ -13,7 +13,7 @@ Antes de começar, você vai precisar ter instalado:
 Para instalar as dependências necessárias, execute o comando abaixo no terminal:
 
 ```bash
-pip install flask
+pip install -r ./requirements.txt
 ```
 
 Passo a Passo para Iniciar o Projeto
@@ -35,10 +35,19 @@ No macOS/Linux:
 source venv/bin/activate
 ```
 
-2. Instale as dependências
+2. Instale as dependências (Caso o requirements.txt não funcionar)
 No diretório do projeto, execute:
 ```bash
 pip install flask
+```
+```bash
+pip install pymongo
+```
+```bash
+pip install bson
+```
+```bash
+pip install flask-cors
 ```
 
 3. Execute a aplicação
