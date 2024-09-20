@@ -14,10 +14,10 @@
       margin: 20px;
     }
   </style>
-<body>
 </head>
-<div class="container">
-  <h2 class="text-center mt-4">Cadastro de Pedido</h2>
+<body>
+  <div class="container">
+    <h2 class="text-center mt-4">Cadastro de Pedido</h2>
     <div class="navigation-buttons">
       <button class="btn btn-success" onclick="window.location.href='/'">Ir para Home</button>
       <button class="btn btn-secondary" onclick="window.location.href='/clientes'">Ir para Clientes</button>
@@ -26,24 +26,22 @@
     <div class="form-section">
       <form id="pedidoForm">
         <div class="mb-3">
-          <label for="id_pedido" class="form-label">ID</label>
-          <input type="text" class="form-control" id="id_pedido" required>
+          <label for="id_cliente" class="form-label">Cliente</label>
+          <select class="form-select" id="id_cliente" required>
+            <option value="">Selecione um cliente</option>
+            <!-- Clientes serão inseridos aqui via JS -->
+          </select>
         </div>
         <div class="mb-3">
-          <label for="nome" class="form-label">Nome</label>
-          <input type="text" class="form-control" id="nome" required>
+          <label for="id_produto" class="form-label">Produto</label>
+          <select class="form-select" id="id_produto" required>
+            <option value="">Selecione um produto</option>
+            <!-- Produtos serão inseridos aqui via JS -->
+          </select>
         </div>
         <div class="mb-3">
-          <label for="id_cliente" class="form-label">Id_cliente</label>
-          <input type="text" class="form-control" id="id_cliente" required>
-        </div>
-        <div class="mb-3">
-          <label for="id_produto" class="form-label">ID_PRODUTO</label>
-          <input type="text" class="form-control" id="id_produto" required>
-        </div>
-        <div class="mb-3">
-          <label for="data_pedido" class="form-label">Data do Pedido</label>
-          <input type="date" class="form-control" id="data_pedido" required>
+          <label for="dataPedido" class="form-label">Data do Pedido</label>
+          <input type="date" class="form-control" id="dataPedido" required>
         </div>
         <button type="submit" class="btn btn-primary">Cadastrar Pedido</button>
       </form>
@@ -54,10 +52,10 @@
       <table class="table table-bordered">
         <thead>
           <tr>
-            <th>ID</th>
-            <th>id_cliente</th>
-            <th>id_produto</th>
+            <th>Cliente</th>
+            <th>Produto</th>
             <th>Data do Pedido</th>
+            <th>Valor</th>
           </tr>
         </thead>
         <tbody id="pedidosTableBody">

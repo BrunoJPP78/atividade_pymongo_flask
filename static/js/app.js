@@ -4,6 +4,7 @@ const API_URL = "http://localhost:5000"; // URL base da API Flask
 async function cadastrarCliente(event) {
     event.preventDefault(); // Evitar o reload da página ao enviar o formulário
 
+    const id_cliente = document.getElementById("id_cliente").value;
     const nome = document.getElementById("nome").value;
     const email = document.getElementById("email").value;
     const cpf = document.getElementById("cpf").value;

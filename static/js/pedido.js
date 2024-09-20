@@ -1,21 +1,69 @@
 const API_URL = "http://localhost:5000"; // URL base da API Flask
 
+document.addEventListener('DOMContentLoaded', async () => {
+    await carregarClientes();
+    await carregarProdutos();
+  });
+  
+  // Função para carregar os clientes no select
+  async function carregarClientes() {
+    try {
+      const response = await fetch(`${API_URL}/listarClientes`, {
+        method: 'GET',
+      });
+  
+      const clientes = await response.json();
+      const clienteSelect = document.getElementById("id_cliente");
+  
+      clientes.forEach(cliente => {
+        const option = document.createElement("option");
+        option.value = cliente.id_cliente;
+        option.text = cliente.nome; // Exibe o nome do cliente
+        clienteSelect.appendChild(option);
+      });
+    } catch (error) {
+      console.error("Erro ao carregar clientes:", error);
+    }
+  }
+  
+  // Função para carregar os produtos no select
+  async function carregarProdutos() {
+    try {
+      const response = await fetch(`${API_URL}/listarProdutos`, {
+        method: 'GET',
+      });
+  
+      const produtos = await response.json();
+      const produtoSelect = document.getElementById("id_produto");
+  
+      produtos.forEach(produto => {
+        const option = document.createElement("option");
+        option.value = produto.id_produto;
+        option.text = produto.nome; // Exibe o nome do produto
+        produtoSelect.appendChild(option);
+      });
+    } catch (error) {
+      console.error("Erro ao carregar produtos:", error);
+    }
+  }
+  
+
 // Função para cadastrar um novo pedido
 async function cadastrarPedido(event) {
     event.preventDefault(); // Evitar o reload da página ao enviar o formulário
 
-    const nome = document.getElementById("nome").value;
-    const id_pedido = document.getElementById("id_pedido").value;
+    // const id_pedido = document.getElementById("id_pedido").value;
+    const id_cliente = document.getElementById("id_cliente").value;
     const id_produto = document.getElementById("id_produto").value;
     const dataPedido = document.getElementById("dataPedido").value;
 
     const pedidoData = {
-        id_pedido: id_pedido,
-        nome: nome,
-        id_pedido: id_pedido,
+        // id_pedido: id_pedido,
+        id_cliente: id_cliente,
         id_produto: id_produto,
-        data_pedido: dataPedido
+        dataPedido: dataPedido
     };
+    console.log("pedidoData: ", pedidoData);
 
     try {
         const response = await fetch(`${API_URL}/inserirPedido`, {
@@ -50,15 +98,14 @@ async function listarPedidos() {
         if (pedidosTableBody) {
             pedidosTableBody.innerHTML = ""; // Limpar tabela antes de adicionar novos dados
 
-            pedidos.forEach((cliente) => {
+            pedidos.forEach((pedido) => {
                 const row = document.createElement("tr");
 
                 row.innerHTML = `
-                    <td>${cliente.id_cliente}</td>
-                    <td>${cliente.nome}</td>
-                    <td>${cliente.id_cliente}</td>
-                    <td>${cliente.id_produto}</td>
-                    <td>${cliente.data_pedido}</td>
+                    <td>${pedido.nome_cliente}</td>
+                    <td>${pedido.nome_produto}</td>
+                    <td>${pedido.dataPedido}</td>
+                    <td>${pedido.valor}</td>
                 `;
 
                 pedidosTableBody.appendChild(row);

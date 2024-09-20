@@ -261,10 +261,13 @@ def delete_produto(id_produto):
 def set_pedido():
     dados = request.get_json()
     id_cliente = dados['id_cliente']
+    print('id_cliente: ', id_cliente)
     id_produto = dados['id_produto']
+    print('id_produto: ', id_produto)
 
     # Verificar se o cliente existe
     cliente = clientes_collection.find_one({"id_cliente": id_cliente})
+    print("Cliente achado: ", cliente)
     if not cliente:
         return jsonify({"error": "Cliente não encontrado"}), 404
 
@@ -277,7 +280,7 @@ def set_pedido():
     novo_pedido = {
         "id_cliente": id_cliente,
         "id_produto": id_produto,
-        "data_pedido": dados.get('data_pedido'),
+        "dataPedido": dados.get('dataPedido'),
         "valor": dados.get('valor')
     }
     resultado = pedidos_collection.insert_one(novo_pedido)
@@ -287,6 +290,21 @@ def set_pedido():
     else:
         return jsonify({"error" : "Erro ao criar pedido"}), 500
 
+# @app.route("/listarPedidos")
+# def listar_pedidos():
+#     try:
+#         pedidos = pedidos_collection.find()
+
+#         pedidos_serializado = []
+#         for pedido in pedidos:
+#             pedido['_id'] = str(pedido['_id'])
+#             pedidos_serializado.append(pedido)
+        
+#         return jsonify(pedidos_serializado), 200
+
+#     except Exception as e:
+#         print(f"Erro: {e}")
+#         return "Erro ao listar pedidos.", 500
 @app.route("/listarPedidos")
 def listar_pedidos():
     try:
@@ -294,8 +312,23 @@ def listar_pedidos():
 
         pedidos_serializado = []
         for pedido in pedidos:
-            pedido['_id'] = str(pedido['_id'])
-            pedidos_serializado.append(pedido)
+            # Buscar o nome do cliente e do produto
+            cliente = clientes_collection.find_one({"id_cliente": pedido["id_cliente"]})
+            produto = produtos_collection.find_one({"id_produto": pedido["id_produto"]})
+            
+            # Se cliente ou produto não forem encontrados, atribuir valores padrão
+            nome_cliente = cliente["nome"] if cliente else "Cliente não encontrado"
+            nome_produto = produto["nome"] if produto else "Produto não encontrado"
+
+            pedido_serializado = {
+                "_id": str(pedido["_id"]),
+                "nome_cliente": nome_cliente,
+                "nome_produto": nome_produto,
+                "dataPedido": pedido.get("dataPedido"),
+                "valor": pedido.get("valor")
+            }
+
+            pedidos_serializado.append(pedido_serializado)
         
         return jsonify(pedidos_serializado), 200
 
